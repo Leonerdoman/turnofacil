@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "TurnoFácil · Secuencia B: baja de la clienta con «no más»",
+    "locale": "es",
+    "quality_profile": "showcase",
+    "output": "docs/flows/turnofacil/sequence-baja-clienta/secuencia-baja-clienta.html"
+  },
+  "participants": [
+    { "id": "otra", "type": "external", "icon": "person", "label": "Dueña de otro salón", "sublabel": "u otra cita del mismo salón" },
+    { "id": "tf", "type": "backend", "label": "TurnoFácil", "sublabel": "sin tecnología definida" },
+    { "id": "wa", "type": "messagebus", "label": "WhatsApp", "sublabel": "canal (PRD §7)" },
+    { "id": "clienta", "type": "external", "icon": "person", "label": "Clienta", "sublabel": "activa → dada de baja" }
+  ],
+  "segments": [
+    { "from": 150, "to": 300, "label": "Recordatorio y baja" },
+    { "from": 310, "to": 400, "label": "Confirmación de la baja" },
+    { "from": 410, "to": 520, "label": "Cita nueva con ese teléfono" }
+  ],
+  "messages": [
+    { "id": "m-rec", "from": "tf", "to": "wa", "y": 165, "label": "recordatorio de una cita" },
+    { "id": "m-rec-c", "from": "wa", "to": "clienta", "y": 195, "label": "recordatorio" },
+    { "id": "m-nomas", "from": "clienta", "to": "wa", "y": 225, "label": "«no más»", "variant": "security" },
+    { "id": "m-nomas-tf", "from": "wa", "to": "tf", "y": 255, "label": "«no más»", "variant": "security", "note": "baja por teléfono, en todos los salones" },
+    { "id": "m-confbaja", "from": "tf", "to": "wa", "y": 325, "label": "confirma la baja", "note": "desde ahora no sale ningún recordatorio suyo" },
+    { "id": "m-confbaja-c", "from": "wa", "to": "clienta", "y": 380, "label": "mensaje corto: baja confirmada", "variant": "return" },
+    { "id": "m-registra", "from": "otra", "to": "tf", "y": 425, "label": "registra cita con ese teléfono", "variant": "emphasis" },
+    { "id": "m-guardada", "from": "tf", "to": "otra", "y": 455, "label": "cita guardada + aviso: se dio de baja", "variant": "return", "note": "no se envía ningún recordatorio; queda «sin confirmar»" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Cómo leer esta secuencia",
+      "items": [
+        "La baja es una condición de la clienta (por teléfono), no un estado de la cita",
+        "Sus citas ya registradas tampoco reciben recordatorios y quedan «sin confirmar»",
+        "El PRD no define un aviso a la dueña en el momento de la baja: no se dibuja"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Riesgo conocido",
+      "items": [
+        "«baja» o «para» no dan de baja: cuentan como respuesta no entendida y la clienta sigue recibiendo mensajes"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "[PENDIENTE]",
+      "items": [
+        "Cómo vuelve la clienta a activa",
+        "Lista final de palabras de baja, sujeta a la validación legal",
+        "Fuente: docs/PRD.md, US-02 y §6"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,396 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "TurnoFácil · Flujo de la dueña en el chat de WhatsApp",
+    "locale": "es",
+    "quality_profile": "showcase",
+    "output": "docs/flows/turnofacil/workflow-duena-chat/flujo-duena-chat.html",
+    "legend": {
+      "entries": {
+        "external": {
+          "label": "Persona (dueña)"
+        },
+        "security": {
+          "label": "Control de acceso"
+        },
+        "backend": {
+          "label": "Paso de TurnoFácil"
+        },
+        "database": {
+          "label": "Cita guardada o cambiada"
+        },
+        "frontend": {
+          "label": "Mensaje que recibe la dueña"
+        }
+      }
+    }
+  },
+  "lanes": [
+    {
+      "id": "duena",
+      "label": "Dueña"
+    },
+    {
+      "id": "control",
+      "label": "Control de número"
+    },
+    {
+      "id": "reg",
+      "label": "Registrar cita"
+    },
+    {
+      "id": "regx",
+      "label": "Registro rechazado",
+      "variant": "exception"
+    },
+    {
+      "id": "can",
+      "label": "Cancelar cita"
+    },
+    {
+      "id": "canx",
+      "label": "Cita no encontrada",
+      "variant": "exception"
+    },
+    {
+      "id": "vis",
+      "label": "Pedir la vista"
+    },
+    {
+      "id": "visx",
+      "label": "Vista sin listas",
+      "variant": "exception"
+    }
+  ],
+  "mainPath": [
+    "escribe",
+    "numero",
+    "accion",
+    "revisa",
+    "guarda",
+    "confirma"
+  ],
+  "nodes": [
+    {
+      "id": "escribe",
+      "lane": "duena",
+      "col": 0,
+      "type": "external",
+      "icon": "person",
+      "label": "Dueña escribe al chat",
+      "sublabel": "registrar · cancelar · vista"
+    },
+    {
+      "id": "ignorado",
+      "lane": "control",
+      "col": 0,
+      "type": "security",
+      "icon": "stop",
+      "label": "No se ejecuta",
+      "sublabel": "y no se responde nada"
+    },
+    {
+      "id": "numero",
+      "lane": "control",
+      "col": 1,
+      "type": "security",
+      "icon": "decision",
+      "label": "¿Número registrado?",
+      "sublabel": "un solo número por salón",
+      "tag": "[PENDIENTE] cambio de número"
+    },
+    {
+      "id": "accion",
+      "lane": "control",
+      "col": 2,
+      "type": "backend",
+      "icon": "decision",
+      "label": "¿Qué acción pide?"
+    },
+    {
+      "id": "revisa",
+      "lane": "reg",
+      "col": 3,
+      "type": "backend",
+      "icon": "decision",
+      "label": "Revisa el registro",
+      "sublabel": "clienta · teléfono · servicio · día · hora",
+      "tag": "rechazos sin orden fijo"
+    },
+    {
+      "id": "guarda",
+      "lane": "reg",
+      "col": 4,
+      "type": "database",
+      "label": "Cita guardada",
+      "sublabel": "queda lista para recordatorios"
+    },
+    {
+      "id": "confirma",
+      "lane": "reg",
+      "col": 5,
+      "type": "frontend",
+      "icon": "success",
+      "label": "Confirmación de guardado",
+      "sublabel": "en menos de 10 s [ASUNCIÓN]",
+      "tag": "+ aviso si la clienta se dio de baja"
+    },
+    {
+      "id": "repetir",
+      "lane": "regx",
+      "col": 3,
+      "type": "frontend",
+      "icon": "failure",
+      "label": "Pide repetir el mensaje",
+      "sublabel": "falta dato · teléfono · fecha pasada"
+    },
+    {
+      "id": "existe",
+      "lane": "regx",
+      "col": 4,
+      "type": "frontend",
+      "icon": "failure",
+      "label": "Avisa: la cita ya existe",
+      "sublabel": "mismo teléfono, día y hora"
+    },
+    {
+      "id": "busca",
+      "lane": "can",
+      "col": 3,
+      "type": "backend",
+      "icon": "decision",
+      "label": "Busca la cita",
+      "sublabel": "nombre de la clienta + día y hora",
+      "tag": "[DECISIÓN DEL DIAGRAMA]"
+    },
+    {
+      "id": "cancelada",
+      "lane": "can",
+      "col": 4,
+      "type": "database",
+      "label": "Cita cancelada por la dueña",
+      "sublabel": "también confirmada o ya cancelada",
+      "tag": "[DECISIÓN DEL DIAGRAMA]"
+    },
+    {
+      "id": "sinaviso",
+      "lane": "can",
+      "col": 5,
+      "type": "backend",
+      "icon": "stop",
+      "label": "Sin más recordatorios",
+      "sublabel": "no se avisa a la clienta"
+    },
+    {
+      "id": "noencontro",
+      "lane": "canx",
+      "col": 3,
+      "type": "frontend",
+      "icon": "failure",
+      "label": "Avisa: no se encontró",
+      "tag": "[DECISIÓN DEL DIAGRAMA]"
+    },
+    {
+      "id": "dia",
+      "lane": "vis",
+      "col": 3,
+      "type": "backend",
+      "icon": "calendar",
+      "label": "Lee el día pedido",
+      "sublabel": "sin día = mañana"
+    },
+    {
+      "id": "listas",
+      "lane": "vis",
+      "col": 4,
+      "type": "backend",
+      "label": "Arma las dos listas",
+      "sublabel": "confirmadas · sin confirmar",
+      "tag": "[ASUNCIÓN] no probada"
+    },
+    {
+      "id": "vista",
+      "lane": "vis",
+      "col": 5,
+      "type": "frontend",
+      "icon": "success",
+      "label": "Recibe la vista",
+      "sublabel": "en menos de 10 s [ASUNCIÓN]"
+    },
+    {
+      "id": "nodia",
+      "lane": "visx",
+      "col": 3,
+      "type": "frontend",
+      "icon": "failure",
+      "label": "Pide repetir el día",
+      "sublabel": "no envía ninguna lista"
+    },
+    {
+      "id": "nocitas",
+      "lane": "visx",
+      "col": 4,
+      "type": "frontend",
+      "icon": "neutral",
+      "label": "Avisa: no hay citas",
+      "sublabel": "para ese día"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-escribe",
+      "from": "escribe",
+      "to": "numero",
+      "role": "main"
+    },
+    {
+      "id": "e-ignora",
+      "from": "numero",
+      "to": "ignorado",
+      "label": "no",
+      "role": "error",
+      "variant": "security"
+    },
+    {
+      "id": "e-accion",
+      "from": "numero",
+      "to": "accion",
+      "label": "sí",
+      "role": "main"
+    },
+    {
+      "id": "e-reg",
+      "from": "accion",
+      "to": "revisa",
+      "label": "registrar",
+      "role": "main",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e-can",
+      "from": "accion",
+      "to": "busca",
+      "label": "cancelar",
+      "role": "branch"
+    },
+    {
+      "id": "e-vis",
+      "from": "accion",
+      "to": "dia",
+      "label": "pedir vista",
+      "role": "branch"
+    },
+    {
+      "id": "e-guarda",
+      "from": "revisa",
+      "to": "guarda",
+      "label": "completo y válido",
+      "role": "main",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e-confirma",
+      "from": "guarda",
+      "to": "confirma",
+      "role": "main"
+    },
+    {
+      "id": "e-repetir",
+      "from": "revisa",
+      "to": "repetir",
+      "label": "dato mal",
+      "role": "error",
+      "variant": "security"
+    },
+    {
+      "id": "e-existe",
+      "from": "revisa",
+      "to": "existe",
+      "label": "duplicada",
+      "role": "error",
+      "variant": "security"
+    },
+    {
+      "id": "e-cancela",
+      "from": "busca",
+      "to": "cancelada",
+      "label": "la encontró",
+      "role": "main"
+    },
+    {
+      "id": "e-sinaviso",
+      "from": "cancelada",
+      "to": "sinaviso"
+    },
+    {
+      "id": "e-noencontro",
+      "from": "busca",
+      "to": "noencontro",
+      "label": "no existe",
+      "role": "error",
+      "variant": "security"
+    },
+    {
+      "id": "e-listas",
+      "from": "dia",
+      "to": "listas",
+      "label": "día entendido",
+      "role": "main"
+    },
+    {
+      "id": "e-vista",
+      "from": "listas",
+      "to": "vista",
+      "label": "hay citas"
+    },
+    {
+      "id": "e-nodia",
+      "from": "dia",
+      "to": "nodia",
+      "label": "no entendido",
+      "role": "error",
+      "variant": "security"
+    },
+    {
+      "id": "e-nocitas",
+      "from": "listas",
+      "to": "nocitas",
+      "label": "sin citas",
+      "role": "branch",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Qué muestra la vista",
+      "items": [
+        "Cancelada por la clienta: aparece en «sin confirmar» (regla de la vista con cancelaciones)",
+        "Respuesta no entendida: aparece en «sin confirmar»",
+        "Cancelada por la dueña: no aparece en ninguna lista",
+        "TurnoFácil nunca envía la vista si la dueña no la pide"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "[DECISIÓN DEL DIAGRAMA] — proponer al PRD",
+      "items": [
+        "Para cancelar, la dueña indica nombre de la clienta y día y hora",
+        "Si la cita no existe, se le avisa que no se encontró",
+        "La dueña puede cancelar cualquier cita activa: también una confirmada o una ya cancelada por la clienta",
+        "Los rechazos del registro se revisan sin orden fijo"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "[PENDIENTE] y [ASUNCIÓN]",
+      "items": [
+        "[PENDIENTE] Qué pasa si la dueña cambia de número (PRD §6)",
+        "[ASUNCIÓN] Guardado y vista en menos de 10 s: no medido en el piloto",
+        "[ASUNCIÓN] La vista no se probó en el piloto",
+        "Fuente: docs/PRD.md, US-01 y US-03"
+      ]
+    }
+  ]
+}

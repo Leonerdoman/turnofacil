@@ -1,0 +1,359 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "TurnoFácil · Flujo de la clienta: recordatorios y respuesta",
+    "locale": "es",
+    "quality_profile": "showcase",
+    "output": "docs/flows/turnofacil/workflow-clienta-recordatorios/flujo-clienta-recordatorios.html",
+    "legend": {
+      "entries": {
+        "external": {
+          "label": "Persona (clienta)"
+        },
+        "security": {
+          "label": "Control de baja"
+        },
+        "backend": {
+          "label": "Paso de TurnoFácil"
+        },
+        "messagebus": {
+          "label": "Mensaje de WhatsApp a la clienta"
+        },
+        "database": {
+          "label": "Estado en que queda la cita o la clienta"
+        },
+        "frontend": {
+          "label": "Mensaje que recibe la dueña"
+        }
+      }
+    }
+  },
+  "lanes": [
+    {
+      "id": "envio",
+      "label": "TurnoFácil envía"
+    },
+    {
+      "id": "clienta",
+      "label": "Respuesta de la clienta"
+    },
+    {
+      "id": "cancela",
+      "label": "Cancelación de la clienta"
+    },
+    {
+      "id": "baja",
+      "label": "Baja de la clienta"
+    },
+    {
+      "id": "sin",
+      "label": "Queda sin confirmar",
+      "variant": "exception"
+    },
+    {
+      "id": "mant",
+      "label": "Respuesta ya válida",
+      "variant": "exception"
+    }
+  ],
+  "mainPath": [
+    "guardada",
+    "esbaja",
+    "rec1",
+    "rec2",
+    "responde",
+    "confirmada"
+  ],
+  "nodes": [
+    {
+      "id": "guardada",
+      "lane": "envio",
+      "col": 0,
+      "type": "database",
+      "icon": "calendar",
+      "label": "Cita guardada",
+      "sublabel": "la registró la dueña"
+    },
+    {
+      "id": "esbaja",
+      "lane": "envio",
+      "col": 1,
+      "type": "security",
+      "icon": "decision",
+      "label": "¿Clienta dada de baja?",
+      "sublabel": "se revisa por teléfono"
+    },
+    {
+      "id": "rec1",
+      "lane": "envio",
+      "col": 2,
+      "type": "messagebus",
+      "icon": "clock",
+      "label": "Recordatorio 1",
+      "sublabel": "el día antes · hora [PENDIENTE]",
+      "tag": "se omite si ya pasó"
+    },
+    {
+      "id": "rec2",
+      "lane": "envio",
+      "col": 3,
+      "type": "messagebus",
+      "icon": "clock",
+      "label": "Recordatorio 2",
+      "sublabel": "2 horas antes",
+      "tag": "[PENDIENTE] tras responder"
+    },
+    {
+      "id": "nadie",
+      "lane": "envio",
+      "col": 4,
+      "type": "database",
+      "icon": "waiting",
+      "label": "Sin confirmar",
+      "sublabel": "pasó la hora sin respuesta"
+    },
+    {
+      "id": "responde",
+      "lane": "clienta",
+      "col": 3,
+      "type": "external",
+      "icon": "person",
+      "label": "Clienta responde",
+      "sublabel": "palabras provisionales [ASUNCIÓN]"
+    },
+    {
+      "id": "confirmada",
+      "lane": "clienta",
+      "col": 4,
+      "type": "database",
+      "icon": "success",
+      "label": "Cita confirmada",
+      "sublabel": "sí · confirmo · listo · ok · 👍"
+    },
+    {
+      "id": "cancelada",
+      "lane": "cancela",
+      "col": 4,
+      "type": "database",
+      "icon": "stop",
+      "label": "Cancelada por la clienta",
+      "sublabel": "cancelo · cancelar · no puedo"
+    },
+    {
+      "id": "aviso",
+      "lane": "cancela",
+      "col": 5,
+      "type": "frontend",
+      "icon": "flag",
+      "label": "Aviso a la dueña",
+      "sublabel": "contenido [PENDIENTE]",
+      "tag": "[ASUNCIÓN] no probado"
+    },
+    {
+      "id": "dadabaja",
+      "lane": "baja",
+      "col": 4,
+      "type": "security",
+      "icon": "stop",
+      "label": "Clienta dada de baja",
+      "sublabel": "no más · stop · en todos los salones",
+      "tag": "recibe mensaje que la confirma"
+    },
+    {
+      "id": "sinrec",
+      "lane": "sin",
+      "col": 1,
+      "type": "database",
+      "icon": "waiting",
+      "label": "Sin confirmar",
+      "sublabel": "no se envía ningún recordatorio"
+    },
+    {
+      "id": "nollega",
+      "lane": "sin",
+      "col": 2,
+      "type": "database",
+      "icon": "waiting",
+      "label": "Sin confirmar",
+      "sublabel": "número sin WhatsApp: no llega"
+    },
+    {
+      "id": "noentiende",
+      "lane": "sin",
+      "col": 3,
+      "type": "backend",
+      "icon": "decision",
+      "label": "Respuesta no entendida",
+      "sublabel": "¿ya hubo una válida?",
+      "tag": "incluye «baja» y «para»"
+    },
+    {
+      "id": "sinvalida",
+      "lane": "sin",
+      "col": 4,
+      "type": "database",
+      "icon": "waiting",
+      "label": "Sin confirmar",
+      "sublabel": "sin reenvío ni aviso a la dueña"
+    },
+    {
+      "id": "sigue",
+      "lane": "mant",
+      "col": 3,
+      "type": "database",
+      "icon": "neutral",
+      "label": "Sigue la última válida",
+      "sublabel": "confirmada o cancelada",
+      "tag": "[DECISIÓN DEL DIAGRAMA]"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-check",
+      "from": "guardada",
+      "to": "esbaja",
+      "role": "main"
+    },
+    {
+      "id": "e-activa",
+      "from": "esbaja",
+      "to": "rec1",
+      "label": "no",
+      "role": "main"
+    },
+    {
+      "id": "e-sinrec",
+      "from": "esbaja",
+      "to": "sinrec",
+      "label": "sí",
+      "role": "error",
+      "variant": "security"
+    },
+    {
+      "id": "e-rec2",
+      "from": "rec1",
+      "to": "rec2",
+      "label": "faltan 2 h",
+      "role": "main"
+    },
+    {
+      "id": "e-r1resp",
+      "from": "rec1",
+      "to": "responde",
+      "label": "responde",
+      "role": "branch"
+    },
+    {
+      "id": "e-nollega",
+      "from": "rec1",
+      "to": "nollega",
+      "label": "no llega",
+      "role": "error",
+      "variant": "security"
+    },
+    {
+      "id": "e-r2resp",
+      "from": "rec2",
+      "to": "responde",
+      "label": "responde",
+      "role": "main"
+    },
+    {
+      "id": "e-nadie",
+      "from": "rec2",
+      "to": "nadie",
+      "label": "pasa la hora",
+      "role": "branch",
+      "variant": "dashed"
+    },
+    {
+      "id": "e-confirma",
+      "from": "responde",
+      "to": "confirmada",
+      "label": "confirma",
+      "role": "main",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e-cancela",
+      "from": "responde",
+      "to": "cancelada",
+      "label": "cancela",
+      "role": "branch"
+    },
+    {
+      "id": "e-aviso",
+      "from": "cancelada",
+      "to": "aviso",
+      "label": "avisa"
+    },
+    {
+      "id": "e-baja",
+      "from": "responde",
+      "to": "dadabaja",
+      "label": "no más / stop",
+      "role": "branch",
+      "variant": "security"
+    },
+    {
+      "id": "e-noent",
+      "from": "responde",
+      "to": "noentiende",
+      "label": "otra cosa",
+      "role": "error",
+      "variant": "security"
+    },
+    {
+      "id": "e-sinvalida",
+      "from": "noentiende",
+      "to": "sinvalida",
+      "label": "no",
+      "role": "error",
+      "variant": "security"
+    },
+    {
+      "id": "e-sigue",
+      "from": "noentiende",
+      "to": "sigue",
+      "label": "sí",
+      "role": "branch",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "violet",
+      "title": "[DECISIÓN DEL DIAGRAMA] — proponer al PRD",
+      "items": [
+        "La clienta puede cambiar su respuesta: vale la última respuesta válida (confirmada ↔ cancelada)",
+        "Un mensaje no entendido no cambia la última respuesta válida",
+        "«Sin confirmar» por respuesta no entendida aplica solo si aún no hubo respuesta válida",
+        "Al llegar la hora, una respuesta posterior no cambia el estado",
+        "El aviso cuando una cancelada vuelve a confirmarse es parte del aviso de cancelación y se corta con él",
+        "Una cita confirmada sigue confirmada si la clienta se da de baja después"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Reglas de la baja",
+      "items": [
+        "Vale por teléfono, para todos los salones",
+        "Reconoce «no más» y «stop» con cualquier mayúscula, tilde o puntuación",
+        "Sus citas, ya registradas o nuevas, no reciben recordatorios y quedan «sin confirmar»",
+        "Volver a activa: [PENDIENTE]"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "[PENDIENTE] y [ASUNCIÓN]",
+      "items": [
+        "[PENDIENTE] Hora del recordatorio 1",
+        "[PENDIENTE] Si el recordatorio 2 sale cuando ya confirmó o canceló",
+        "[PENDIENTE] Contenido y anticipación mínima del aviso de cancelación",
+        "[ASUNCIÓN] Palabras reconocidas, provisionales; lista final sujeta a validación legal",
+        "Fuente: docs/PRD.md, US-02 y US-04"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "sequence",
+  "quality": "showcase",
+  "specification": {
+    "path": "/tmp/opos/project/docs/flows/turnofacil/sequence-baja-clienta/candidate.json",
+    "sha256": "5a063695576a87cf89ff501f2a23a228a22fd3c1d76c449f735aa025ef3a728c",
+    "bytes": 2967
+  },
+  "artifact": {
+    "path": "/tmp/opos/project/docs/flows/turnofacil/sequence-baja-clienta/secuencia-baja-clienta.html",
+    "sha256": "9b39129550d70b81b1f8a3969b60922f6bb8baf6055baa958902b3f1242d5890",
+    "bytes": 836896
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/tmp/opos/project/docs/flows/turnofacil/sequence-baja-clienta/secuencia-baja-clienta.finalize.json",
+    "summaryReceipt": "/tmp/opos/project/docs/flows/turnofacil/sequence-baja-clienta/secuencia-baja-clienta.finalize-summary.json",
+    "browserCheckReceipt": "/tmp/opos/project/docs/flows/turnofacil/sequence-baja-clienta/secuencia-baja-clienta.browser-check.json"
+  },
+  "visualReview": "not-requested",
+  "durationMs": 4613,
+  "browserCheck": {
+    "requested": true,
+    "ran": true
+  }
+}

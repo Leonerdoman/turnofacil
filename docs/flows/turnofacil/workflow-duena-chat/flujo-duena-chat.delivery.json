@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "f7c0dc46-b528-4534-952c-870beff8fd0b",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "/tmp/opos/project/docs/flows/turnofacil/workflow-duena-chat/candidate.json",
+  "output": "/tmp/opos/project/docs/flows/turnofacil/workflow-duena-chat/flujo-duena-chat.html",
+  "specification": {
+    "sha256": "53532a084ae84fb00efc3a7321ce109d01b896bacac0149333476d02c5aa7630",
+    "bytes": 9019
+  },
+  "artifact": {
+    "sha256": "c99e5e078cae3e9e7afd19e50f77421799485c16ed0fe7c28e3f25ef75d521de",
+    "bytes": 866407
+  }
+}

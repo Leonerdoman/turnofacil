@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "287d1787-a787-49ee-a0cb-e71b52be2b7a",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "/tmp/opos/project/docs/flows/turnofacil/workflow-clienta-recordatorios/candidate.json",
+  "output": "/tmp/opos/project/docs/flows/turnofacil/workflow-clienta-recordatorios/flujo-clienta-recordatorios.html",
+  "specification": {
+    "sha256": "321d063e3c8b561eee86c9625df516fa79f1cf419d6fba46e372390b6f970421",
+    "bytes": 8602
+  },
+  "artifact": {
+    "sha256": "639afda8dc209e88eb37383e1797c0a3b2c561539cb1cb1d0319b6ab03f377a8",
+    "bytes": 862239
+  }
+}

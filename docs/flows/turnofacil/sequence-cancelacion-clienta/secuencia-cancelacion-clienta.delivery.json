@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "af1ab48c-0c52-4764-9c85-e9dc27e6a77b",
+  "status": "current",
+  "command": "deliver",
+  "type": "sequence",
+  "input": "/tmp/opos/project/docs/flows/turnofacil/sequence-cancelacion-clienta/candidate.json",
+  "output": "/tmp/opos/project/docs/flows/turnofacil/sequence-cancelacion-clienta/secuencia-cancelacion-clienta.html",
+  "specification": {
+    "sha256": "5f0230df4677cc287554c7399ed98065cfe888800fdeeb4f64839fa28d30f100",
+    "bytes": 3747
+  },
+  "artifact": {
+    "sha256": "d4ec311498d632e633927181a9ca120d1f4c31c05a32543329942aebf96827b4",
+    "bytes": 838351
+  }
+}

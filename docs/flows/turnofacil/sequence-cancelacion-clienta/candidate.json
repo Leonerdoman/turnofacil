@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "TurnoFácil · Secuencia A: registro, recordatorios, cancelación de la clienta y aviso a la dueña",
+    "locale": "es",
+    "quality_profile": "showcase",
+    "output": "docs/flows/turnofacil/sequence-cancelacion-clienta/secuencia-cancelacion-clienta.html"
+  },
+  "participants": [
+    {
+      "id": "duena",
+      "type": "external",
+      "icon": "person",
+      "label": "Dueña",
+      "sublabel": "número registrado del salón"
+    },
+    {
+      "id": "tf",
+      "type": "backend",
+      "label": "TurnoFácil",
+      "sublabel": "sin tecnología definida"
+    },
+    {
+      "id": "wa",
+      "type": "messagebus",
+      "label": "WhatsApp",
+      "sublabel": "canal (PRD §7)"
+    },
+    {
+      "id": "clienta",
+      "type": "external",
+      "icon": "person",
+      "label": "Clienta",
+      "sublabel": "activa"
+    }
+  ],
+  "segments": [
+    {
+      "from": 150,
+      "to": 235,
+      "label": "Registro"
+    },
+    {
+      "from": 245,
+      "to": 420,
+      "label": "Recordatorio 1 y respuesta"
+    },
+    {
+      "from": 428,
+      "to": 480,
+      "label": "Aviso a la dueña"
+    },
+    {
+      "from": 488,
+      "to": 590,
+      "label": "Recordatorio 2"
+    }
+  ],
+  "messages": [
+    {
+      "id": "m-registra",
+      "from": "duena",
+      "to": "tf",
+      "y": 165,
+      "label": "clienta, teléfono, servicio, día y hora",
+      "variant": "emphasis"
+    },
+    {
+      "id": "m-guardada",
+      "from": "tf",
+      "to": "duena",
+      "y": 195,
+      "label": "cita guardada",
+      "variant": "return",
+      "note": "en menos de 10 s [ASUNCIÓN]"
+    },
+    {
+      "id": "m-rec1",
+      "from": "tf",
+      "to": "wa",
+      "y": 260,
+      "label": "recordatorio 1: fecha y hora",
+      "note": "el día antes · hora [PENDIENTE]"
+    },
+    {
+      "id": "m-rec1-c",
+      "from": "wa",
+      "to": "clienta",
+      "y": 315,
+      "label": "recordatorio 1"
+    },
+    {
+      "id": "m-cancelo",
+      "from": "clienta",
+      "to": "wa",
+      "y": 345,
+      "label": "«cancelo»",
+      "variant": "security"
+    },
+    {
+      "id": "m-cancelo-tf",
+      "from": "wa",
+      "to": "tf",
+      "y": 375,
+      "label": "«cancelo»",
+      "variant": "security",
+      "note": "la cita queda cancelada por la clienta"
+    },
+    {
+      "id": "m-aviso",
+      "from": "tf",
+      "to": "duena",
+      "y": 440,
+      "label": "aviso de cancelación",
+      "variant": "security",
+      "note": "contenido [PENDIENTE] · [ASUNCIÓN]"
+    },
+    {
+      "id": "m-rec2",
+      "from": "tf",
+      "to": "wa",
+      "y": 500,
+      "label": "recordatorio 2 [PENDIENTE]",
+      "variant": "dashed",
+      "note": "el PRD no define si sale tras cancelar"
+    },
+    {
+      "id": "m-rec2-c",
+      "from": "wa",
+      "to": "clienta",
+      "y": 560,
+      "label": "recordatorio 2 [PENDIENTE]",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Cómo leer esta secuencia",
+      "items": [
+        "Es un caso concreto: la clienta cancela al recordatorio 1",
+        "La clienta puede cambiar después su respuesta; vale la última válida [DECISIÓN DEL DIAGRAMA]",
+        "En la vista, esta cita aparece en «sin confirmar»"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "[PENDIENTE] y [ASUNCIÓN]",
+      "items": [
+        "[PENDIENTE] Hora del recordatorio 1",
+        "[PENDIENTE] Si el recordatorio 2 sale cuando la clienta ya canceló",
+        "[PENDIENTE] Contenido y anticipación mínima del aviso de cancelación",
+        "[ASUNCIÓN] El aviso a la dueña no se probó en el piloto",
+        "Fuente: docs/PRD.md, US-01, US-02 y US-04"
+      ]
+    }
+  ]
+}

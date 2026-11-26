@@ -1,0 +1,88 @@
+{
+  "schema_version": 3,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "TurnoFácil · Condición de la clienta (por teléfono)",
+    "locale": "es",
+    "quality_profile": "showcase",
+    "output": "docs/flows/turnofacil/lifecycle-condicion-clienta/condicion-clienta.html",
+    "legend": {
+      "entries": {
+        "start": {
+          "label": "Activa: recibe recordatorios"
+        },
+        "neutral": {
+          "label": "Dada de baja: no recibe recordatorios"
+        }
+      }
+    }
+  },
+  "mainPath": [
+    "activa",
+    "baja"
+  ],
+  "states": [
+    {
+      "id": "activa",
+      "type": "start",
+      "label": "Activa",
+      "sublabel": "recibe recordatorios de todos los salones",
+      "step": "01"
+    },
+    {
+      "id": "baja",
+      "type": "neutral",
+      "label": "Dada de baja",
+      "sublabel": "vale para todos los salones",
+      "tag": "volver a activa: [PENDIENTE]",
+      "step": "02"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "t-baja",
+      "from": "activa",
+      "to": "baja",
+      "label": "escribe «no más» o «stop»",
+      "note": "recibe mensaje que confirma la baja"
+    },
+    {
+      "id": "t-noreconoce",
+      "from": "activa",
+      "to": "activa",
+      "label": "«baja» o «para»",
+      "note": "no se reconoce: sigue activa",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Qué cambia al estar dada de baja",
+      "items": [
+        "No recibe ningún recordatorio, de ningún salón",
+        "Sus citas ya registradas sin confirmar no reciben recordatorios y quedan «sin confirmar» al pasar la hora",
+        "Una cita que ya estaba confirmada sigue confirmada [DECISIÓN DEL DIAGRAMA]",
+        "La dueña puede registrarle citas nuevas: se guardan, no se envían recordatorios y la confirmación de guardado le avisa que esa clienta se dio de baja",
+        "Es una condición de la clienta, no un estado de la cita"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Riesgo conocido",
+      "items": [
+        "«no más» y «stop» se reconocen con cualquier mayúscula, tilde o puntuación",
+        "Una clienta que escribe «baja» o «para» no queda dada de baja y sigue recibiendo mensajes"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "[PENDIENTE]",
+      "items": [
+        "Cómo vuelve una clienta de «Dada de baja» a «Activa»",
+        "Lista final de palabras de baja, sujeta a la validación legal",
+        "Fuente: docs/PRD.md, US-02 y §6"
+      ]
+    }
+  ]
+}

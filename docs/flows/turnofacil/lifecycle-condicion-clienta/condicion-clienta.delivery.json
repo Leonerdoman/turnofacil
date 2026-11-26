@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "096f89d9-96cf-406e-9cea-1efa15dcf97c",
+  "status": "current",
+  "command": "deliver",
+  "type": "lifecycle",
+  "input": "/tmp/opos/project/docs/flows/turnofacil/lifecycle-condicion-clienta/candidate.json",
+  "output": "/tmp/opos/project/docs/flows/turnofacil/lifecycle-condicion-clienta/condicion-clienta.html",
+  "specification": {
+    "sha256": "dabe0566396da32268d43e9a61eded43e14d8b05f397779c157555ee7149778a",
+    "bytes": 2532
+  },
+  "artifact": {
+    "sha256": "46f46417e7e58e26963dec34227b40dd19d9932b3b7a186938e593ea63864548",
+    "bytes": 829216
+  }
+}

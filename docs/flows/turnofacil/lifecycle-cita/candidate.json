@@ -1,0 +1,193 @@
+{
+  "schema_version": 3,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "TurnoFácil · Ciclo de vida de la cita",
+    "locale": "es",
+    "quality_profile": "showcase",
+    "output": "docs/flows/turnofacil/lifecycle-cita/ciclo-de-vida-cita.html",
+    "legend": {
+      "entries": {
+        "start": {
+          "label": "Estado inicial"
+        },
+        "success": {
+          "label": "Confirmada"
+        },
+        "failure": {
+          "label": "Cancelada"
+        },
+        "neutral": {
+          "label": "Cerrada sin respuesta o fuera de la vista"
+        }
+      }
+    }
+  },
+  "mainPath": [
+    "guardada",
+    "confirmada"
+  ],
+  "states": [
+    {
+      "id": "guardada",
+      "type": "start",
+      "label": "Guardada",
+      "sublabel": "sin respuesta válida aún",
+      "tag": "en la vista: sin confirmar",
+      "step": "01"
+    },
+    {
+      "id": "confirmada",
+      "type": "success",
+      "label": "Confirmada",
+      "sublabel": "respondió una palabra de confirmación",
+      "tag": "en la vista: confirmada",
+      "step": "02"
+    },
+    {
+      "id": "canceladaclienta",
+      "type": "failure",
+      "label": "Cancelada por la clienta",
+      "sublabel": "aviso a la dueña [ASUNCIÓN]",
+      "tag": "en la vista: sin confirmar"
+    },
+    {
+      "id": "canceladaduena",
+      "type": "neutral",
+      "label": "Cancelada por la dueña",
+      "sublabel": "sin más recordatorios · no se avisa",
+      "tag": "fuera de la vista · final"
+    },
+    {
+      "id": "sinconfirmar",
+      "type": "neutral",
+      "label": "Sin confirmar",
+      "sublabel": "llegó la hora sin respuesta válida",
+      "tag": "en la vista: sin confirmar · final"
+    },
+    {
+      "id": "confirmadafinal",
+      "type": "success",
+      "label": "Confirmada · cerrada",
+      "sublabel": "llegó la hora confirmada",
+      "tag": "[DECISIÓN] final"
+    },
+    {
+      "id": "canceladaclientafinal",
+      "type": "failure",
+      "label": "Cancelada por la clienta · cerrada",
+      "sublabel": "llegó la hora cancelada",
+      "tag": "[DECISIÓN] final"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "t-confirma",
+      "from": "guardada",
+      "to": "confirmada",
+      "label": "confirma"
+    },
+    {
+      "id": "t-noentiende-g",
+      "from": "guardada",
+      "to": "guardada",
+      "label": "no entendida",
+      "note": "sigue sin respuesta válida",
+      "variant": "dashed"
+    },
+    {
+      "id": "t-noentiende-c",
+      "from": "confirmada",
+      "to": "confirmada",
+      "label": "no entendida",
+      "note": "[DECISIÓN] no cambia",
+      "variant": "dashed"
+    },
+    {
+      "id": "t-cancela",
+      "from": "guardada",
+      "to": "canceladaclienta",
+      "label": "cancela"
+    },
+    {
+      "id": "t-cambia-cancela",
+      "from": "confirmada",
+      "to": "canceladaclienta",
+      "label": "cambia [DECISIÓN]"
+    },
+    {
+      "id": "t-cambia-confirma",
+      "from": "canceladaclienta",
+      "to": "confirmada",
+      "label": "cambia [DECISIÓN]"
+    },
+    {
+      "id": "t-duena-g",
+      "from": "guardada",
+      "to": "canceladaduena",
+      "label": "la dueña cancela",
+      "variant": "security"
+    },
+    {
+      "id": "t-duena-c",
+      "from": "confirmada",
+      "to": "canceladaduena",
+      "label": "la dueña cancela",
+      "variant": "security"
+    },
+    {
+      "id": "t-hora",
+      "from": "guardada",
+      "to": "sinconfirmar",
+      "label": "pasa la hora",
+      "note": "sin respuesta, baja o sin WhatsApp",
+      "variant": "dashed"
+    },
+    {
+      "id": "t-duena-cc",
+      "from": "canceladaclienta",
+      "to": "canceladaduena",
+      "label": "la dueña cancela",
+      "variant": "security"
+    },
+    {
+      "id": "t-cierre-c",
+      "from": "confirmada",
+      "to": "confirmadafinal",
+      "label": "llega la hora",
+      "variant": "dashed"
+    },
+    {
+      "id": "t-cierre-cc",
+      "from": "canceladaclienta",
+      "to": "canceladaclientafinal",
+      "label": "llega la hora",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Cómo leer este ciclo",
+      "items": [
+        "Un registro rechazado no crea cita: no entra al ciclo",
+        "Si la clienta está dada de baja o su número no tiene WhatsApp, no recibe recordatorios y la cita llega a la hora como «Sin confirmar»",
+        "La baja es una condición de la clienta, no un estado de la cita: ver el diagrama de condición de la clienta",
+        "No incluye resultados como «llegó» o «no llegó»: se miden en el piloto, no en el producto",
+        "Fuente: docs/PRD.md, US-01, US-02, US-03 y US-04"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "[DECISIÓN DEL DIAGRAMA] — proponer al PRD",
+      "items": [
+        "Vale la última respuesta válida: confirmada ↔ cancelada por la clienta",
+        "Una respuesta no entendida no cambia la última respuesta válida",
+        "Al llegar la hora, Confirmada y Cancelada por la clienta quedan finales; una respuesta posterior no cambia el estado",
+        "La dueña puede cancelar cualquier cita activa: guardada, confirmada o ya cancelada por la clienta (pasa a Cancelada por la dueña)",
+        "El aviso cuando una cancelada vuelve a confirmarse es parte del aviso de cancelación y se corta con él",
+        "Una cita confirmada sigue confirmada si la clienta se da de baja después"
+      ]
+    }
+  ]
+}

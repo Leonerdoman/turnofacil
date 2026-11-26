@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "workflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "/tmp/opos/project/docs/flows/turnofacil/workflow-clienta-recordatorios/candidate.json",
+    "sha256": "321d063e3c8b561eee86c9625df516fa79f1cf419d6fba46e372390b6f970421",
+    "bytes": 8602
+  },
+  "artifact": {
+    "path": "/tmp/opos/project/docs/flows/turnofacil/workflow-clienta-recordatorios/flujo-clienta-recordatorios.html",
+    "sha256": "639afda8dc209e88eb37383e1797c0a3b2c561539cb1cb1d0319b6ab03f377a8",
+    "bytes": 862239
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/tmp/opos/project/docs/flows/turnofacil/workflow-clienta-recordatorios/review-2/flujo-clienta-recordatorios.finalize.json",
+    "summaryReceipt": "/tmp/opos/project/docs/flows/turnofacil/workflow-clienta-recordatorios/review-2/flujo-clienta-recordatorios.finalize-summary.json",
+    "browserCheckReceipt": "/tmp/opos/project/docs/flows/turnofacil/workflow-clienta-recordatorios/review-2/flujo-clienta-recordatorios.browser-check.json"
+  },
+  "visualReview": "not-requested",
+  "durationMs": 6320,
+  "browserCheck": {
+    "requested": true,
+    "ran": true
+  }
+}

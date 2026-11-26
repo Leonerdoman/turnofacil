@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "a05f45e8-e57c-4050-8257-fa7a2efb424d",
+  "status": "current",
+  "command": "deliver",
+  "type": "lifecycle",
+  "input": "/tmp/opos/project/docs/flows/turnofacil/lifecycle-cita/candidate.json",
+  "output": "/tmp/opos/project/docs/flows/turnofacil/lifecycle-cita/ciclo-de-vida-cita.html",
+  "specification": {
+    "sha256": "e56326e1b9e4aa8e12af267102612da14a0574ad1dc53058788e9a407bbea781",
+    "bytes": 5416
+  },
+  "artifact": {
+    "sha256": "a4939556b3389c18ff343336007d96b655725d0d1017471249d83e59bcd6af9d",
+    "bytes": 850038
+  }
+}

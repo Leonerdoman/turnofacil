@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "34b43d2f-e62e-4d15-80f9-4df775f73e10",
+  "status": "current",
+  "command": "deliver",
+  "type": "sequence",
+  "input": "/tmp/opos/project/docs/flows/turnofacil/sequence-baja-clienta/candidate.json",
+  "output": "/tmp/opos/project/docs/flows/turnofacil/sequence-baja-clienta/secuencia-baja-clienta.html",
+  "specification": {
+    "sha256": "5a063695576a87cf89ff501f2a23a228a22fd3c1d76c449f735aa025ef3a728c",
+    "bytes": 2967
+  },
+  "artifact": {
+    "sha256": "9b39129550d70b81b1f8a3969b60922f6bb8baf6055baa958902b3f1242d5890",
+    "bytes": 836896
+  }
+}
